@@ -62,15 +62,15 @@ Vagrant.configure("2") do |config|
         v.customize ["modifyvm", :id, "--cpus", cpus]
     end
 
-
     # Host Manager
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
     config.hostmanager.ignore_private_ip = false
     config.hostmanager.include_offline = true
-    config.vm.define 'simple-magento-vagrant' do |node|
-        node.vm.hostname = 'simple-magento-vagrant'
+    config.vm.define 'magento-vagrant-1-8' do |node|
+        node.vm.hostname = 'magento-vagrant-1-8'
         node.vm.network :private_network, ip: '192.168.68.69'
-        node.hostmanager.aliases = %w(simple-magento-vagrant.dev)
+        node.hostmanager.aliases = %w(magento-vagrant-1-8.dev)
     end
+    
 end

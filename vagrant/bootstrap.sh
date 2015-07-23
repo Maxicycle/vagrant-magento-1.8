@@ -30,7 +30,7 @@ VHOST=$(cat <<EOF
 <VirtualHost *:80>
 
   DocumentRoot "/var/www"
-  ServerName simple-magento-vagrant.dev
+  ServerName magento-vagrant-1-8.dev
 
   <Directory "/var/www">
     AllowOverride All
@@ -42,7 +42,7 @@ VHOST=$(cat <<EOF
 EOF
 )
 
-echo "$VHOST" > /etc/apache2/sites-enabled/000-default
+echo "$VHOST" > /etc/apache2/sites-enabled/000-default.conf
 
 a2enmod rewrite
 service apache2 restart
@@ -56,7 +56,7 @@ if [ ! -d "/vagrant/httpdocs/adminer" ]; then
   mkdir /vagrant/httpdocs/adminer
   wget -O /vagrant/httpdocs/adminer/index.php http://downloads.sourceforge.net/adminer/adminer-4.0.3.php
 
-  echo "Adminer installed... Use http://simple-magento-vagrant.dev/adminer/ URL to use it."
+  echo "Adminer installed... Use http://magento-vagrant-1-8.dev/adminer/ URL to use it."
 fi
 
 
@@ -107,8 +107,8 @@ if [ -f "/vagrant/source/sql_magento_sample_data_1.6.1.0.sql" ]; then
   #
   # Update DB
   # --------------------
-  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://simple-magento-vagrant.dev/' WHERE core_config_data.path = 'web/unsecure/base_url'"
-  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://simple-magento-vagrant.dev/' WHERE core_config_data.path = 'web/secure/base_url'"
+  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://magento-vagrant-1-8.dev/' WHERE core_config_data.path = 'web/unsecure/base_url'"
+  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://magento-vagrant-1-8.dev/' WHERE core_config_data.path = 'web/secure/base_url'"
 
   echo "Update complete."
 else
