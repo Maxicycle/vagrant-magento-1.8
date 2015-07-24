@@ -32,7 +32,7 @@ VHOST=$(cat <<EOF
 <VirtualHost *:80>
 
   DocumentRoot "/var/www"
-  ServerName simple-magento-vagrant.dev
+  ServerName magento-vagrant-1-7.dev
 
   <Directory "/var/www">
     AllowOverride All
@@ -58,7 +58,7 @@ if [ ! -d "/vagrant/httpdocs/adminer" ]; then
   mkdir /vagrant/httpdocs/adminer
   wget -O /vagrant/httpdocs/adminer/index.php http://downloads.sourceforge.net/adminer/adminer-4.0.3.php
 
-  echo "Adminer installed... Use http://simple-magento-vagrant.dev/adminer/ URL to use it."
+  echo "Adminer installed... Use http://magento-vagrant-1-7.dev/adminer/ URL to use it."
 fi
 
 
@@ -82,9 +82,9 @@ mysql -u root -e "FLUSH PRIVILEGES"
 #
 # Unpack magento
 # --------------------
-if [ -f "/vagrant/source/magento-1.8.1.0.tar.bz2" ]; then
-  echo "/vagrant/source/magento-1.8.1.0.tar.bz2 found. Start copy..."
-  tar xvf /vagrant/source/magento-1.8.1.0.tar.bz2 -C /vagrant/httpdocs/ --exclude='._*'
+if [ -f "/vagrant/source/magento-1.7.0.2.zip" ]; then
+  echo "/vagrant/source/magento-1.7.0.2.zip found. Start copy..."
+  unzip /vagrant/source/magento-1.7.0.2.zip -C /vagrant/httpdocs/ --exclude='._*'
 
   echo "moving files to /vagrant/httpdocs folder..."
   mv /vagrant/httpdocs/magento/{*,.*} /vagrant/httpdocs
@@ -93,7 +93,7 @@ if [ -f "/vagrant/source/magento-1.8.1.0.tar.bz2" ]; then
 
   echo "Done."
 else
-  echo "/vagrant/source/magento-1.8.1.0.tar.bz2 not found."
+  echo "/vagrant/source/magento-1.7.0.2.zip not found."
 fi
 
 
@@ -109,8 +109,8 @@ if [ -f "/vagrant/source/sql_magento_sample_data_1.6.1.0.sql" ]; then
   #
   # Update DB
   # --------------------
-  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://simple-magento-vagrant.dev/' WHERE core_config_data.path = 'web/unsecure/base_url'"
-  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://simple-magento-vagrant.dev/' WHERE core_config_data.path = 'web/secure/base_url'"
+  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://magento-vagrant-1-7.dev/' WHERE core_config_data.path = 'web/unsecure/base_url'"
+  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://magento-vagrant-1-7.dev/' WHERE core_config_data.path = 'web/secure/base_url'"
 
   echo "Update complete."
 else
