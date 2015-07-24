@@ -32,7 +32,7 @@ VHOST=$(cat <<EOF
 <VirtualHost *:80>
 
   DocumentRoot "/var/www"
-  ServerName simple-magento-vagrant.dev
+  ServerName magento-vagrant-1-9.dev
 
   <Directory "/var/www">
     AllowOverride All
@@ -58,7 +58,7 @@ if [ ! -d "/vagrant/httpdocs/adminer" ]; then
   mkdir /vagrant/httpdocs/adminer
   wget -O /vagrant/httpdocs/adminer/index.php http://downloads.sourceforge.net/adminer/adminer-4.0.3.php
 
-  echo "Adminer installed... Use http://simple-magento-vagrant.dev/adminer/ URL to use it."
+  echo "Adminer installed... Use http://magento-vagrant-1-9.dev/adminer/ URL to use it."
 fi
 
 
@@ -82,9 +82,9 @@ mysql -u root -e "FLUSH PRIVILEGES"
 #
 # Unpack magento
 # --------------------
-if [ -f "/vagrant/source/magento-1.8.1.0.tar.bz2" ]; then
-  echo "/vagrant/source/magento-1.8.1.0.tar.bz2 found. Start copy..."
-  tar xvf /vagrant/source/magento-1.8.1.0.tar.bz2 -C /vagrant/httpdocs/ --exclude='._*'
+if [ -f "/vagrant/source/magento-1.9.2.0.tar.bz2" ]; then
+  echo "/vagrant/source/magento-1.9.2.0.tar.bz2 found. Start copy..."
+  tar xvf /vagrant/source/magento-1.9.2.0.tar.bz2 -C /vagrant/httpdocs/ --exclude='._*'
 
   echo "moving files to /vagrant/httpdocs folder..."
   mv /vagrant/httpdocs/magento/{*,.*} /vagrant/httpdocs
@@ -93,37 +93,37 @@ if [ -f "/vagrant/source/magento-1.8.1.0.tar.bz2" ]; then
 
   echo "Done."
 else
-  echo "/vagrant/source/magento-1.8.1.0.tar.bz2 not found."
+  echo "/vagrant/source/magento-1.9.2.0.tar.bz2 not found."
 fi
 
 
 #
 # Import DB
 # --------------------
-if [ -f "/vagrant/source/sql_magento_sample_data_1.6.1.0.sql" ]; then
+if [ -f "/vagrant/source/magento_sample_data_for_1.9.1.0.sql" ]; then
 
-  echo "/vagrant/source/sql_magento_sample_data_1.6.1.0.sql found. Start import..."
-  mysql -u root magentodb < /vagrant/source/sql_magento_sample_data_1.6.1.0.sql
+  echo "/vagrant/source/magento_sample_data_for_1.9.1.0.sql found. Start import..."
+  mysql -u root magentodb < /vagrant/source/magento_sample_data_for_1.9.1.0.sql
   echo "Done. Run db update..."
 
   #
   # Update DB
   # --------------------
-  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://simple-magento-vagrant.dev/' WHERE core_config_data.path = 'web/unsecure/base_url'"
-  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://simple-magento-vagrant.dev/' WHERE core_config_data.path = 'web/secure/base_url'"
+  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://magento-vagrant-1-9.dev/' WHERE core_config_data.path = 'web/unsecure/base_url'"
+  mysql -u root -e "UPDATE magentodb.core_config_data SET value = 'http://magento-vagrant-1-9.dev/' WHERE core_config_data.path = 'web/secure/base_url'"
 
   echo "Update complete."
 else
-  echo "/vagrant/source/sql_magento_sample_data_1.6.1.0.sql not found."
+  echo "/vagrant/source/magento_sample_data_for_1.9.1.0.sql not found."
 fi
 
 
 # Import Media
 # --------------------
-if [ -f "/vagrant/source/media_magento_sample_data_for_1.6.1.0.tar.gz" ]; then
-  echo "/vagrant/source/media_magento_sample_data_for_1.6.1.0.tar.gz found. Start copy..."
-  tar xvzf /vagrant/source/media_magento_sample_data_for_1.6.1.0.tar.gz -C /vagrant/httpdocs/ --exclude='._*'
+if [ -f "/vagrant/source/compressed-magento-sample-data-1.9.1.0.tgz" ]; then
+  echo "/vagrant/source/compressed-magento-sample-data-1.9.1.0.tgz found. Start copy..."
+  tar xvzf /vagrant/source/compressed-magento-sample-data-1.9.1.0.tgz -C /vagrant/httpdocs/ --exclude='._*'
   echo "Done."
 else
-  echo "/vagrant/source/media_magento_sample_data_for_1.6.1.0.tar.gz not found."
+  echo "/vagrant/source/compressed-magento-sample-data-1.9.1.0.tgz not found."
 fi
