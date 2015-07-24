@@ -10,7 +10,7 @@ apt-get update
 apt-get install -y apache2
 apt-get install -y php5
 apt-get install -y libapache2-mod-php5
-apt-get install -y php5-mysql php5-curl php5-gd php5-intl php-pear php5-imap php5-mcrypt php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php-apc
+apt-get install -y php5-mysql php5-curl php5-gd php5-intl php-pear php5-imap php5-mcrypt php5-ming php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl php-apc unzip
 
 #enable mcrypt
 php5enmod mcrypt
@@ -82,9 +82,11 @@ mysql -u root -e "FLUSH PRIVILEGES"
 #
 # Unpack magento
 # --------------------
-if [ -f "/vagrant/source/magento-1.8.1.0.tar.bz2" ]; then
-  echo "/vagrant/source/magento-1.8.1.0.tar.bz2 found. Start copy..."
-  tar xvf /vagrant/source/magento-1.8.1.0.tar.bz2 -C /vagrant/httpdocs/ --exclude='._*'
+if [ -f "/vagrant/source/magento-1.6.2.0.zip" ]; then
+  echo "/vagrant/source/magento-1.6.2.0.zip found. Start copy..."
+  unzip /vagrant/source/magento-1.6.2.0.zip -d /vagrant/httpdocs/ -x '.*'
+  mv /vagrant/httpdocs/magento/* /vagrant/httpdocs
+  rmdir /vagrant/httpdocs/magento
 
   echo "moving files to /vagrant/httpdocs folder..."
   mv /vagrant/httpdocs/magento/{*,.*} /vagrant/httpdocs
@@ -93,9 +95,12 @@ if [ -f "/vagrant/source/magento-1.8.1.0.tar.bz2" ]; then
 
   echo "Done."
 else
-  echo "/vagrant/source/magento-1.8.1.0.tar.bz2 not found."
+  echo "/vagrant/source/magento-1.6.2.0.zip not found."
 fi
 
+
+# fix bug
+sed -i 's/<pdo_mysql\/>/<pdo_mysql>1<\/pdo_mysql>/'  /vagrant/httpdocs/app/code/core/Mage/Install/etc/config.xml
 
 #
 # Import DB

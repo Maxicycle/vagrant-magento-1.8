@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
     # Create a forwarded port mapping which allows access to a specific port
     # within the machine from a port on the host machine. In the example below,
     # accessing "localhost:8080" will access port 80 on the guest machine.
-    config.vm.network :forwarded_port, guest: 80, host: 8998
-    config.vm.network :forwarded_port, guest: 22, host: 2298
+    config.vm.network :forwarded_port, guest: 80, host: 8996
+    config.vm.network :forwarded_port, guest: 22, host: 2296
 
 
     # Synced folder
@@ -69,9 +69,9 @@ Vagrant.configure("2") do |config|
     config.hostmanager.manage_host = true
     config.hostmanager.ignore_private_ip = false
     config.hostmanager.include_offline = true
-    config.vm.define 'simple-magento-vagrant' do |node|
-        node.vm.hostname = 'simple-magento-vagrant'
-        node.vm.network :private_network, ip: '192.168.68.69'
-        node.hostmanager.aliases = %w(simple-magento-vagrant.dev)
+    config.vm.define 'magento-vagrant-1-6' do |node|
+        node.vm.hostname = 'magento-vagrant-1-6'
+        node.vm.network :private_network, ip: '192.168.68.66'
+        node.hostmanager.aliases = %w(magento-vagrant-1-6.dev)
     end
 end
